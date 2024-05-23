@@ -1,21 +1,19 @@
-import { error } from "elysia";
+import { read } from "bun:ffi";
 import { ID_ERROR } from "./error-constants";
+import { pushToFile, readByIdFromFile, readFromFile } from "./file-manager";
 
-let arr = [1, 2, 3, 4];
-
-export function getAll(id) {
-  if (id == undefined) {
-    return arr;
-  }
-  if (id < arr.length) {
-    return arr[id - 1];
-  }
-  if (id >= arr.length) {
-    throw ID_ERROR;
-  }
+export async function getAll() {
+  return await readFromFile();
 }
-export function postPush(value) {
-  arr.push(value);
+
+export async function getById(id){
+  let i = await readByIdFromFile(id);
+  console.log(i,2)
+  return i;
+}
+
+export async function postPush(value) {
+  return await pushToFile(value);
 }
 export function patchSplice(id, value) {
   if (id >= arr.length) {

@@ -5,15 +5,22 @@ import {
   patchSplice,
   deleteSplice,
   deleteAll,
+  getById,
 } from "./service";
 import { ID_ERROR } from "./error-constants";
+import { pushToFile } from "./file-manager";
 
 const app = new Elysia()
-  .get("/", () => getAll())
-  .get("/:id", ({ params: { id }, set }) => {
+  .get("/", async () => {
+    let ar = await getAll();
+    return ar;
+  })
+  .get("/:id", async ({ params: { id }, set }) => {
     try {
-      set.status = 201;
-      return getAll(id);
+      set.status = 200;
+      let i = await getById(id);
+      console.log(i)
+      return i;
     } catch (e) {
       if (e == ID_ERROR) {
         set.status = 404;
@@ -21,11 +28,13 @@ const app = new Elysia()
       }
     }
   })
-  .post("/", ({ body: { value }, set }) => {
+  .post("/", async ({ body: { value }, set }) => {
     try {
-      return postPush(id, value);
+      let i = await postPush(value);
+      set.status = 202;
+      return i;
     } catch (e) {
-      if (e == ID_ERROR) {
+      if (e == "error") {
         set.status = 404;
         return e;
       }
