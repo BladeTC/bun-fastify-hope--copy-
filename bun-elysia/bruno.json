@@ -1,0 +1,9 @@
+{
+  "version": "1",
+  "name": "bun-elysia",
+  "type": "collection",
+  "ignore": [
+    "node_modules",
+    ".git"
+  ]
+}
