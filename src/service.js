@@ -1,16 +1,16 @@
 import { error } from "elysia";
-import { ID_ERROR } from "./adhd";
+import { ID_ERROR } from "./error-constants";
 
 let arr = [1, 2, 3, 4];
 
 export function getAll(id) {
   if (id == undefined) {
     return arr;
-  } 
+  }
   if (id < arr.length) {
     return arr[id - 1];
   }
-  if(id>=arr.length){
+  if (id >= arr.length) {
     throw ID_ERROR;
   }
 }

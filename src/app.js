@@ -6,7 +6,7 @@ import {
   deleteSplice,
   deleteAll,
 } from "./service";
-import { ID_ERROR } from "./adhd";
+import { ID_ERROR } from "./error-constants";
 
 const app = new Elysia()
   .get("/", () => getAll())
