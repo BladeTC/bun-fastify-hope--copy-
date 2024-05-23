@@ -5,7 +5,7 @@ import {
   patchSplice,
   deleteSplice,
   deleteAll,
-} from "./srvice";
+} from "./service";
 import { ID_ERROR } from "./adhd";
 
 const app = new Elysia()
@@ -25,7 +25,7 @@ const app = new Elysia()
     try {
       return postPush(id, value);
     } catch (e) {
-      if ((e == ID_ERROR)) {
+      if (e == ID_ERROR) {
         set.status = 404;
         return e;
       }
@@ -35,7 +35,7 @@ const app = new Elysia()
     try {
       patchSplice(id, value);
     } catch (e) {
-      if ((e == ID_ERROR)) {
+      if (e == ID_ERROR) {
         set.status = 404;
         return e;
       }
@@ -45,7 +45,7 @@ const app = new Elysia()
     try {
       deleteSplice(id);
     } catch (e) {
-      if ((e == ID_ERROR)) {
+      if (e == ID_ERROR) {
         set.status = 404;
         return e;
       }
