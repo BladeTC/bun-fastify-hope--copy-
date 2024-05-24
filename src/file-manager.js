@@ -1,22 +1,16 @@
-import { writeFile } from "node:fs";
-import { appendFile } from "node:fs/promises";
+import { appendFile, writeFile } from "node:fs/promises";
 import {
-  PATCH_ID_ERROR,
-  POST_VALUE_ERROR,
-  PATCH_VALUE_ERROR,
-  DELETE_ID_ERROR,
-  GET_ID_ERROR,
+  ID_ERROR,
+  ID_IS_NEGATIVE_ERROR,
+  ID_NOT_INT_ERROR,
+  VALUE_ERROR,
 } from "./error-constants";
-
-const fs = require("fs");
 const path = "./todosums.txt";
 const file = Bun.file(path);
-const writer = file.writer();
-const decoder = new TextDecoder();
 
 export async function pushToFile(value) {
   if (value == undefined) {
-    throw POST_VALUE_ERROR;
+    throw VALUE_ERROR;
   }
   await appendFile(path, value + "\n");
   return "arr";
@@ -29,54 +23,53 @@ export async function readFromFile() {
   //return console.log(file.text,3);
 }
 export async function readByIdFromFile(id) {
+  if (isNaN(parseInt(id))) {
+    throw ID_NOT_INT_ERROR;
+  }
+  if (id < 0) {
+    throw ID_IS_NEGATIVE_ERROR;
+  }
+  if (id == undefined) {
+    throw ID_ERROR;
+  }
   let i = 0;
   const text = await file.text();
-  //console.log(text);
   let arr = text.split(/\r?\n/);
-  if (id >= arr.length) {
-    throw GET_ID_ERROR;
-  }
-  for await (let j of arr) {
-    i++;
-    if (i == id) {
-      return j;
-    }
-  }
+  return arr[id - 1];
 }
 export async function deleteByIdFromFile(id) {
-  let i = 0;
+  if (isNaN(parseInt(id))) {
+    throw ID_NOT_INT_ERROR;
+  }
+  if (id < 0) {
+    throw ID_IS_NEGATIVE_ERROR;
+  }
+  if (id == undefined) {
+    throw ID_ERROR;
+  }
   const text = await file.text();
   let arr = text.split(/\r?\n/);
-  if (id >= arr.length) {
-    throw DELETE_ID_ERROR;
-  }
   arr.splice(id - 1, 1);
-  writeFile(path, arr.join("\n"), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      // file written successfully
-    }
-  });
+  await writeFile(path, arr.join("\n"));
 }
 export async function deleteAllFromFile() {
   await Bun.write(path, "");
 }
 export async function patchToFile(id, value) {
-  const text = await file.text();
-  let arr = text.split(/\r?\n/);
-  if (id >= arr.length) {
-    throw PATCH_ID_ERROR;
+  if (isNaN(parseInt(id)) == NaN) {
+    throw ID_NOT_INT_ERROR;
+  }
+  if (id < 0) {
+    throw ID_IS_NEGATIVE_ERROR;
+  }
+  if (id == undefined) {
+    throw ID_ERROR;
   }
   if (value == undefined) {
-    throw PATCH_VALUE_ERROR;
+    throw VALUE_ERROR;
   }
+  const text = await file.text();
+  let arr = text.split(/\r?\n/);
   arr.splice(id - 1, 1, value);
-  writeFile(path, arr.join("\n"), (err) => {
-    if (err) {
-      console.error(err);
-    } else {
-      // file written successfully
-    }
-  });
+  await writeFile(path, arr.join("\n"));
 }

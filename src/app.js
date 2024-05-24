@@ -8,17 +8,10 @@ import {
   getById,
 } from "./service";
 import {
-  GET_ID_ERROR,
-  GET_ID_IS_NEGATIVE_ERROR,
-  GET_ID_NOT_INT_ERROR,
-  PATCH_ID_ERROR,
-  PATCH_ID_IS_NEGATIVE_ERROR,
-  PATCH_ID_NOT_INT_ERROR,
-  PATCH_VALUE_ERROR,
-  POST_VALUE_ERROR,
-  DELETE_ID_ERROR,
-  DELETE_ID_IS_NEGATIVE_ERROR,
-  DELETE_ID_NOT_INT_ERROR,
+  ID_ERROR,
+  ID_IS_NEGATIVE_ERROR,
+  ID_NOT_INT_ERROR,
+  VALUE_ERROR,
 } from "./error-constants";
 import { pushToFile } from "./file-manager";
 
@@ -29,15 +22,6 @@ const app = new Elysia()
   })
   .get("/:id", async ({ params: { id }, set }) => {
     try {
-      if (typeof id != "number") {
-        throw GET_ID_NOT_INT_ERROR;
-      }
-      if (id < 0) {
-        throw GET_ID_IS_NEGATIVE_ERROR;
-      }
-      if (id == undefined) {
-        throw GET_ID_ERROR;
-      }
       set.status = 201;
       return await getById(id);
     } catch (e) {
@@ -59,15 +43,6 @@ const app = new Elysia()
   })
   .patch("/:id", async ({ body: { value }, params: { id }, set }) => {
     try {
-      if (typeof id != "number") {
-        throw PATCH_ID_NOT_INT_ERROR;
-      }
-      if (id < 0) {
-        throw PATCH_ID_IS_NEGATIVE_ERROR;
-      }
-      if (id == undefined) {
-        throw PATCH_ID_ERROR;
-      }
       await patchSplice(id, value);
     } catch (e) {
       if (e == PATCH_VALUE_ERROR) {
@@ -81,15 +56,6 @@ const app = new Elysia()
   })
   .delete("/:id", async ({ params: { id }, set }) => {
     try {
-      if (typeof id != "number") {
-        throw DELETE_ID_NOT_INT_ERROR;
-      }
-      if (id < 0) {
-        throw DELETE_ID_IS_NEGATIVE_ERROR;
-      }
-      if (id == undefined) {
-        throw DELETE_ID_ERROR;
-      }
       set.status = 200;
       await deleteSplice(id);
     } catch (e) {
