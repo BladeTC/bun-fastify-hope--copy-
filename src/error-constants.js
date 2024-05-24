@@ -1,9 +1,11 @@
-export const PATCH_ID_ERROR = "id does not exist";
-
-export const PATCH_VALUE_ERROR = "value is undefined";
-
-export const DELETE_ID_ERROR = "id does not exist";
-
-export const POST_VALUE_ERROR = "value is undefined";
-
-export const GET_ID_ERROR = "id does not exist";
+export const GET_ID_NOT_INT_ERROR = "GET:id is not a number";
+export const GET_ID_IS_NEGATIVE_ERROR = "GET:id can not be negative";
+export const GET_ID_ERROR = "GET:id does not exist";
+export const POST_VALUE_ERROR = "POST:value is undefined";
+export const DELETE_ID_ERROR = "DELETE:id does not exist";
+export const DELETE_ID_NOT_INT_ERROR = "DELETE:id is not a number";
+export const DELETE_ID_IS_NEGATIVE_ERROR = "DELETE:id can not be negative";
+export const PATCH_ID_ERROR = "PATCH:id does not exist";
+export const PATCH_ID_NOT_INT_ERROR = "PATCH:id is not a number";
+export const PATCH_ID_IS_NEGATIVE_ERROR = "PATCH:id can not be negative";
+export const PATCH_VALUE_ERROR = "PATCH:value is undefined";
