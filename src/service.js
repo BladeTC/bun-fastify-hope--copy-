@@ -1,34 +1,30 @@
 import { read } from "bun:ffi";
-import { ID_ERROR } from "./error-constants";
-import { pushToFile, readByIdFromFile, readFromFile } from "./file-manager";
+import {
+  deleteByIdFromFile,
+  patchToFile,
+  pushToFile,
+  readByIdFromFile,
+  readFromFile,
+  deleteAllFromFile,
+} from "./file-manager";
 
 export async function getAll() {
   return await readFromFile();
 }
 
-export async function getById(id){
-  let i = await readByIdFromFile(id);
-  console.log(i,2)
-  return i;
+export async function getById(id) {
+  return await readByIdFromFile(id);
 }
 
 export async function postPush(value) {
   return await pushToFile(value);
 }
-export function patchSplice(id, value) {
-  if (id >= arr.length) {
-    throw ID_ERROR;
-  } else {
-    arr.splice(id - 1, 1, value);
-  }
+export async function patchSplice(id, value) {
+  await patchToFile(id, value);
 }
-export function deleteSplice(id) {
-  if (id >= arr.length) {
-    throw ID_ERROR;
-  } else {
-    arr.splice(id - 1, 1);
-  }
+export async function deleteSplice(id) {
+  await deleteByIdFromFile(id);
 }
-export function deleteAll() {
-  arr = [];
+export async function deleteAll() {
+  await deleteAllFromFile();
 }

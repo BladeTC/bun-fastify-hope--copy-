@@ -7,7 +7,13 @@ import {
   deleteAll,
   getById,
 } from "./service";
-import { ID_ERROR } from "./error-constants";
+import {
+  GET_ID_ERROR,
+  PATCH_ID_ERROR,
+  PATCH_VALUE_ERROR,
+  POST_VALUE_ERROR,
+  DELETE_ID_ERROR,
+} from "./error-constants";
 import { pushToFile } from "./file-manager";
 
 const app = new Elysia()
@@ -17,12 +23,10 @@ const app = new Elysia()
   })
   .get("/:id", async ({ params: { id }, set }) => {
     try {
-      set.status = 200;
-      let i = await getById(id);
-      console.log(i)
-      return i;
+      set.status = 201;
+      return await getById(id);
     } catch (e) {
-      if (e == ID_ERROR) {
+      if (e == GET_ID_ERROR) {
         set.status = 404;
         return e;
       }
@@ -31,36 +35,41 @@ const app = new Elysia()
   .post("/", async ({ body: { value }, set }) => {
     try {
       let i = await postPush(value);
-      set.status = 202;
+      set.status = 201;
       return i;
     } catch (e) {
-      if (e == "error") {
-        set.status = 404;
+      if (e == POST_VALUE_ERROR) {
+        set.status = 400;
         return e;
       }
     }
   })
-  .patch("/:id", ({ body: { value }, params: { id }, set }) => {
+  .patch("/:id", async ({ body: { value }, params: { id }, set }) => {
     try {
-      patchSplice(id, value);
+      await patchSplice(id, value);
     } catch (e) {
-      if (e == ID_ERROR) {
+      if (e == PATCH_ID_ERROR) {
         set.status = 404;
+        return e;
+      }
+      if (e == PATCH_VALUE_ERROR) {
+        set.status = 400;
         return e;
       }
     }
   })
-  .delete("/:id", ({ params: { id }, set }) => {
+  .delete("/:id", async ({ params: { id }, set }) => {
     try {
-      deleteSplice(id);
+      set.status = 200;
+      await deleteSplice(id);
     } catch (e) {
-      if (e == ID_ERROR) {
+      if (e == DELETE_ID_ERROR) {
         set.status = 404;
         return e;
       }
     }
   })
-  .delete("/", () => deleteAll())
+  .delete("/", async () => await deleteAll())
   .listen(3000);
 
 console.log(
