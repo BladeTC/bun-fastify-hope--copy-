@@ -1,0 +1,19 @@
+meta {
+  name: test-delete-wrong-id
+  type: http
+  seq: 10
+}
+
+delete {
+  url: http://localhost:3000/40
+  body: json
+  auth: none
+}
+
+body:json {
+  {"value":"hoy"}
+}
+
+assert {
+  res.status: eq 404
+}

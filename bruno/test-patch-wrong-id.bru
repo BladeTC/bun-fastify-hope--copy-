@@ -1,0 +1,19 @@
+meta {
+  name: test-patch-wrong-id
+  type: http
+  seq: 11
+}
+
+patch {
+  url: http://localhost:3000/700
+  body: json
+  auth: none
+}
+
+body:json {
+  {"value":56789}
+}
+
+assert {
+  res.status: eq 404
+}

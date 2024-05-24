@@ -1,0 +1,19 @@
+meta {
+  name: test-patch-undefined-value
+  type: http
+  seq: 12
+}
+
+patch {
+  url: http://localhost:3000/7
+  body: json
+  auth: none
+}
+
+body:json {
+  {"value":}
+}
+
+assert {
+  res.status: eq 400
+}

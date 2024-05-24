@@ -1,0 +1,19 @@
+meta {
+  name: test-post-value-undefined
+  type: http
+  seq: 9
+}
+
+post {
+  url: http://localhost:3000/
+  body: json
+  auth: none
+}
+
+body:json {
+  {"value":}
+}
+
+assert {
+  res.status: eq 400
+}
