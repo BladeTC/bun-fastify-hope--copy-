@@ -1,0 +1,15 @@
+meta {
+  name: db-id-value
+  type: http
+  seq: 15
+}
+
+patch {
+  url: http://localhost:3000/db/4
+  body: json
+  auth: none
+}
+
+body:json {
+  {"value":"lolz"}
+}

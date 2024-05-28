@@ -13,63 +13,66 @@ export async function pushToFile(value) {
     throw VALUE_ERROR;
   }
   await appendFile(path, value + "\n");
-  return "arr";
+  return;
 }
 
 export async function readFromFile() {
-  const text = await file.text();
 
-  return text;
+  return  openTxt();
   //return console.log(file.text,3);
 }
 export async function readByIdFromFile(id) {
+  let arr = await openTxt().split(/\r?\n/);
   if (isNaN(parseInt(id))) {
     throw ID_NOT_INT_ERROR;
   }
-  if (id < 0) {
+  if (parseInt(id) < 0) {
     throw ID_IS_NEGATIVE_ERROR;
   }
-  if (id == undefined) {
+  if (parseInt(id) == undefined || parseInt(id) > arr.length) {
     throw ID_ERROR;
   }
-  let i = 0;
-  const text = await file.text();
-  let arr = text.split(/\r?\n/);
   return arr[id - 1];
 }
 export async function deleteByIdFromFile(id) {
+  let arr = await openTxt().split(/\r?\n/);
   if (isNaN(parseInt(id))) {
     throw ID_NOT_INT_ERROR;
   }
-  if (id < 0) {
+  if (parseInt(id) < 0) {
     throw ID_IS_NEGATIVE_ERROR;
   }
-  if (id == undefined) {
+  if (parseInt(id) == undefined || parseInt(id) > arr.length) {
     throw ID_ERROR;
   }
   const text = await file.text();
-  let arr = text.split(/\r?\n/);
   arr.splice(id - 1, 1);
   await writeFile(path, arr.join("\n"));
 }
+
 export async function deleteAllFromFile() {
   await Bun.write(path, "");
 }
+
 export async function patchToFile(id, value) {
+  let arr = await openTxt().split(/\r?\n/);
   if (isNaN(parseInt(id)) == NaN) {
     throw ID_NOT_INT_ERROR;
   }
-  if (id < 0) {
+  if (parseInt(id) < 0) {
     throw ID_IS_NEGATIVE_ERROR;
   }
-  if (id == undefined) {
+  if (parseInt(id) == undefined || parseInt(id) > arr.length) {
     throw ID_ERROR;
   }
   if (value == undefined) {
     throw VALUE_ERROR;
   }
-  const text = await file.text();
-  let arr = text.split(/\r?\n/);
   arr.splice(id - 1, 1, value);
   await writeFile(path, arr.join("\n"));
+}
+
+async function openTxt(){
+  const text = await file.text();
+  return text;
 }

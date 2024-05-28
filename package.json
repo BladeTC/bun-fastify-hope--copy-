@@ -7,7 +7,8 @@
   },
   "dependencies": {
     "bun": "^1.1.10",
-    "elysia": "^1.0.22"
+    "elysia": "^1.0.22",
+    "sqlite": "^5.1.1"
   },
   "devDependencies": {
     "bun-types": "latest"
