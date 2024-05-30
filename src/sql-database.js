@@ -23,7 +23,7 @@ export async function db_getId(id) {
 
 export async function db_pushValue(value) {
   const db = new Database("mydb.sqlite");
-  let insert = db.prepare(`insert into db (VALUE) values($value);`);
+  let insert = db.prepare(`INSERT INTO db (VALUE) VALUES($value);`);
   let insertData = db.transaction(insert.run(value));
   insertData(value);
   db.close();
@@ -46,7 +46,6 @@ export async function db_deleteId(id) {
   let sql = `DELETE FROM db
                 WHERE ID = $id`;
 
-                console.log(32)
   db.run(sql, data);
   db.close();
   return ;
